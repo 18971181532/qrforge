@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qrforge"
+version = "0.1.0"
+description = "QR code encoder/decoder built from scratch: GF(256) Reed-Solomon, BCH format info, mask evaluation, damage self-healing, PNG rendering, CLI and a Canvas web workbench. Zero dependencies."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "遥か" }]
+requires-python = ">=3.9"
+dependencies = []
+keywords = ["qr-code", "reed-solomon", "galois-field", "bch", "error-correction", "zero-dependency"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/18971181532/qrforge"
+Source = "https://github.com/18971181532/qrforge"
+
+[project.scripts]
+qrforge = "qrforge.cli:main"
+
+[tool.setuptools]
+packages = ["qrforge"]
+
+[tool.setuptools.package-data]
+qrforge = ["web/*.html", "web/*.css", "web/*.js"]

@@ -1,0 +1,29 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+        python: ["3.9", "3.10", "3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: pip install -e .
+      - name: Run tests
+        run: python -m unittest discover tests -v
+      - name: CLI smoke test
+        run: |
+          qrforge encode "CI smoke test"
+          qrforge decode --selfcheck "ci round trip"
+          qrforge png "ci" -o ci.png -s 2

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>QRForge 工作台</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <h1>QR<b>Forge</b></h1>
+  <span class="sub">从零手写的 QR 码编解码器 · GF(256) Reed-Solomon · 版本 1–10 · 零依赖</span>
+</header>
+<nav>
+  <button data-tab="gen" class="active">生成</button>
+  <button data-tab="heal">损伤自愈</button>
+  <button data-tab="mask">掩码评估</button>
+  <button data-tab="rs">RS 编解码</button>
+  <button data-tab="bench">基准</button>
+  <button data-tab="ref">参考</button>
+</nav>
+<main>
+
+<section id="tab-gen" class="tab active">
+  <div class="controls">
+    <input type="text" id="gen-text" value="Hello, QRForge!" placeholder="输入文本…">
+    <select id="gen-level">
+      <option>L</option><option selected>M</option>
+      <option>Q</option><option>H</option>
+    </select>
+    <button id="gen-run">生成二维码</button>
+  </div>
+  <div class="cards" id="gen-cards"></div>
+  <div class="layout">
+    <canvas id="gen-canvas"></canvas>
+    <div class="panel">
+      <h3>模块矩阵</h3>
+      <pre id="gen-matrix"></pre>
+    </div>
+  </div>
+</section>
+
+<section id="tab-heal" class="tab">
+  <div class="controls">
+    <input type="text" id="heal-text" value="damage self-healing demo">
+    <select id="heal-level"><option>L</option><option>M</option><option selected>Q</option><option>H</option></select>
+    <button id="heal-run">编码</button>
+  </div>
+  <div class="slider-row">
+    <span class="hint">翻转模块数</span>
+    <input type="range" id="heal-slider" min="0" max="120" value="24">
+    <span class="val" id="heal-slider-val">24</span>
+  </div>
+  <div class="controls">
+    <button id="heal-seed">换一组损伤</button>
+    <button id="heal-reset">复位</button>
+  </div>
+  <div class="cards" id="heal-cards"></div>
+  <div class="layout">
+    <canvas id="heal-canvas"></canvas>
+    <div class="panel">
+      <h3>解码结果（Reed-Solomon 自愈）</h3>
+      <div class="result-box" id="heal-result"></div>
+      <p class="hint">红色模块为被翻转的“损伤”位置。绿框表示所有块纠错成功、文本完整还原；
+      超出纠错容量时（每块最多 <code>ec/2</code> 字节）解码器将明确报错而不是静默给出错误文本。</p>
+    </div>
+  </div>
+</section>
+
+<section id="tab-mask" class="tab">
+  <div class="controls">
+    <input type="text" id="mask-text" value="mask pattern evaluation">
+    <select id="mask-level"><option>L</option><option selected>M</option><option>Q</option><option>H</option></select>
+    <button id="mask-run">评估 8 种掩码</button>
+  </div>
+  <div class="cards" id="mask-cards"></div>
+  <div class="layout">
+    <canvas id="mask-canvas"></canvas>
+    <div class="panel">
+      <h3>八种掩码惩罚分</h3>
+      <table id="mask-table"></table>
+      <p class="hint">惩罚规则：N1 连续同色 ≥5；N2 2×2 同色块；N3 类探测图形；
+      N4 暗模块占比偏离。得分最低者胜出（高亮行）。</p>
+    </div>
+  </div>
+</section>
+
+<section id="tab-rs" class="tab">
+  <div class="controls">
+    <input type="text" id="rs-text" value="reed-solomon pipeline">
+    <select id="rs-level"><option>L</option><option selected>M</option><option>Q</option><option>H</option></select>
+    <button id="rs-run">生成 RS 流水线</button>
+  </div>
+  <div class="cards" id="rs-cards"></div>
+  <div class="layout">
+    <canvas id="rs-canvas"></canvas>
+    <div class="panel">
+      <h3>码字流水线</h3>
+      <pre id="rs-pipeline"></pre>
+      <p class="hint">数据码字 → 每块 RS 编码（除以生成多项式取余）→ 交织 → 摆位。
+      解码侧：syndromes → Berlekamp-Massey → Chien 搜索 → Forney 纠错。</p>
+    </div>
+  </div>
+</section>
+
+<section id="tab-bench" class="tab">
+  <div class="controls">
+    <button id="bench-run">运行往返基准</button>
+    <span class="hint" id="bench-note"></span>
+  </div>
+  <div class="layout">
+    <div class="panel" style="max-width:100%">
+      <h3>编码耗时（各版本，ms）</h3>
+      <table id="bench-table"></table>
+    </div>
+  </div>
+</section>
+
+<section id="tab-ref" class="tab">
+  <div class="panel" style="max-width:100%">
+    <h3>版本 1–10 块结构表（Thonky / ISO 18004）</h3>
+    <table id="ref-table"></table>
+    <p class="hint">格式：(版本-纠错级)：总数据码字 | 每块 EC 码字 | 组1块数×每块数据 | 组2块数×每块数据。</p>
+  </div>
+</section>
+
+</main>
+<footer>QRForge v0.1.0 · 纯 Python 标准库 · <code>pip install -e .</code> 后执行 <code>qrforge serve</code></footer>
+<script src="/app.js"></script>
+</body>
+</html>
