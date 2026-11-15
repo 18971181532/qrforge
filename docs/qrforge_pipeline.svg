@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="1560" viewBox="0 0 1180 1560" font-family="Segoe UI, Microsoft YaHei, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7aa2f7"/>
+    </marker>
+    <linearGradient id="hdr" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1f2335"/><stop offset="1" stop-color="#292e42"/>
+    </linearGradient>
+  </defs>
+  <rect width="1180" height="1560" fill="#16161e"/>
+  <text x="590" y="52" text-anchor="middle" fill="#e6e6f0" font-size="30" font-weight="700">QRForge 编码 / 解码全链路</text>
+  <text x="590" y="84" text-anchor="middle" fill="#787c99" font-size="16">GF(256) Reed-Solomon · 掩码评估 · 损伤自愈 · 版本 1–10</text>
+
+  <!-- ENCODE column -->
+  <text x="200" y="140" text-anchor="middle" fill="#7aa2f7" font-size="20" font-weight="700">编码 encode()</text>
+  <g font-size="15" fill="#d6d9e8">
+    <rect x="60" y="160" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="194" text-anchor="middle">输入文本 + 纠错级别 L/M/Q/H</text>
+
+    <rect x="60" y="250" width="280" height="70" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="278" text-anchor="middle">模式分类 encode.py</text>
+    <text x="200" y="302" text-anchor="middle" fill="#9aa0bd" font-size="13">numeric(3位→10bit) / alnum(2字符→11bit) / byte(UTF-8)</text>
+
+    <rect x="60" y="354" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="388" text-anchor="middle">选最小版本 choose_version (1–10)</text>
+
+    <rect x="60" y="438" width="280" height="70" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="466" text-anchor="middle">位流封装 BitBuffer</text>
+    <text x="200" y="490" text-anchor="middle" fill="#9aa0bd" font-size="13">模式指示(4b)+计数+数据+终止符+对齐+EC/11 填充</text>
+
+    <rect x="60" y="542" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="576" text-anchor="middle">块分割 tables.block_layout</text>
+
+    <rect x="60" y="626" width="280" height="70" rx="10" fill="#1a2438" stroke="#7aa2f7"/>
+    <text x="200" y="654" text-anchor="middle" fill="#7aa2f7" font-weight="600">RS 编码 rscodec.encode_block</text>
+    <text x="200" y="678" text-anchor="middle" fill="#9aa0bd" font-size="13">data·x^ec mod g(x) → ec 码字（每块 t=ec/2）</text>
+
+    <rect x="60" y="730" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="764" text-anchor="middle">块间交织 _interleave</text>
+
+    <rect x="60" y="814" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="848" text-anchor="middle">函数图形矩阵 build_function_patterns</text>
+
+    <rect x="60" y="898" width="280" height="70" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="926" text-anchor="middle">蛇形摆位 _place</text>
+    <text x="200" y="950" text-anchor="middle" fill="#9aa0bd" font-size="13">右下起两列蛇形，跳过第 6 列与保留格</text>
+
+    <rect x="60" y="1002" width="280" height="70" rx="10" fill="#1a2438" stroke="#7aa2f7"/>
+    <text x="200" y="1030" text-anchor="middle" fill="#7aa2f7" font-weight="600">掩码评估 ×8</text>
+    <text x="200" y="1054" text-anchor="middle" fill="#9aa0bd" font-size="13">N1 连续同色 / N2 2×2 块 / N3 类定位 / N4 占比</text>
+
+    <rect x="60" y="1106" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="200" y="1140" text-anchor="middle">写入格式信息 BCH(15,5) 双副本</text>
+
+    <rect x="60" y="1190" width="280" height="56" rx="10" fill="#243044" stroke="#9ece6a"/>
+    <text x="200" y="1224" text-anchor="middle" fill="#9ece6a" font-weight="600">输出模块矩阵 → ASCII / PNG / JSON</text>
+
+    <line x1="200" y1="216" y2="250" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="320" y2="354" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="410" y2="438" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="508" y2="542" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="598" y2="626" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="696" y2="730" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="786" y2="814" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="870" y2="898" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="968" y2="1002" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="1072" y2="1106" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="200" y1="1162" y2="1190" x2="200" stroke="#7aa2f7" stroke-width="2" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- DECODE column -->
+  <text x="980" y="140" text-anchor="middle" fill="#e0af68" font-size="20" font-weight="700">解码 decode()</text>
+  <g font-size="15" fill="#d6d9e8">
+    <rect x="840" y="160" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="980" y="194" text-anchor="middle">读取模块矩阵（可含损伤）</text>
+
+    <rect x="840" y="250" width="280" height="70" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="980" y="278" text-anchor="middle">格式信息解析（双副本）</text>
+    <text x="980" y="302" text-anchor="middle" fill="#9aa0bd" font-size="13">BCH(15,5) 暴力枚举 32 合法码字</text>
+
+    <rect x="840" y="354" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="980" y="388" text-anchor="middle">去掩码 _unmask（重建 used 表）</text>
+
+    <rect x="840" y="438" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="980" y="472" text-anchor="middle">蛇形读取 + 解交织 _deinterleave</text>
+
+    <rect x="840" y="530" width="280" height="180" rx="10" fill="#2a2118" stroke="#e0af68"/>
+    <text x="980" y="558" text-anchor="middle" fill="#e0af68" font-weight="700" font-size="16">RS 自愈流水线（每块）</text>
+    <text x="980" y="586" text-anchor="middle" font-size="14">① 伴随式 S_k = R(α^k)</text>
+    <text x="980" y="612" text-anchor="middle" font-size="14">② Berlekamp-Massey → σ(x)</text>
+    <text x="980" y="638" text-anchor="middle" font-size="14">③ Chien 搜索错误位置</text>
+    <text x="980" y="664" text-anchor="middle" font-size="14">④ Forney 求幅值并纠正</text>
+    <text x="980" y="690" text-anchor="middle" fill="#9aa0bd" font-size="13">≤t 字节：全纠回 · &gt;t：拒绝该块</text>
+
+    <rect x="840" y="744" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="980" y="778" text-anchor="middle">全部块恢复 / 任一块失败 → 报错</text>
+
+    <rect x="840" y="828" width="280" height="56" rx="10" fill="#22253a" stroke="#3b4261"/>
+    <text x="980" y="862" text-anchor="middle">decode_data 位流解析（三种模式）</text>
+
+    <rect x="840" y="912" width="280" height="56" rx="10" fill="#32262a" stroke="#f7768e"/>
+    <text x="980" y="940" text-anchor="middle" fill="#f7768e" font-weight="600">输出文本 + 纠正字节数</text>
+    <text x="980" y="960" text-anchor="middle" fill="#9aa0bd" font-size="13">corrected_bytes / failed_blocks</text>
+
+    <line x1="980" y1="216" y2="250" x2="980" stroke="#e0af68" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="980" y1="320" y2="354" x2="980" stroke="#e0af68" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="980" y1="410" y2="438" x2="980" stroke="#e0af68" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="980" y1="494" y2="530" x2="980" stroke="#e0af68" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="980" y1="710" y2="744" x2="980" stroke="#e0af68" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="980" y1="800" y2="828" x2="980" stroke="#e0af68" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="980" y1="884" y2="912" x2="980" stroke="#e0af68" stroke-width="2" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- GF(256) foundation -->
+  <rect x="380" y="560" width="420" height="180" rx="12" fill="#1a2438" stroke="#7aa2f7" stroke-dasharray="6 4"/>
+  <text x="590" y="592" text-anchor="middle" fill="#7aa2f7" font-size="17" font-weight="700">GF(256) 基础设施 galois.py</text>
+  <g font-size="14" fill="#b9bed4">
+    <text x="590" y="624" text-anchor="middle">本原多项式 0x11D · 生成元 α = 2</text>
+    <text x="590" y="652" text-anchor="middle">EXP[512] / LOG[256] 双表 → O(1) 乘法</text>
+    <text x="590" y="680" text-anchor="middle">generator(ec) = ∏(x − αⁱ) 生成多项式</text>
+    <text x="590" y="708" text-anchor="middle">reed_solomon() 多项式除法取余</text>
+  </g>
+  <line x1="340" y1="660" x2="380" y2="660" stroke="#7aa2f7" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="800" y1="620" x2="840" y2="620" stroke="#e0af68" stroke-width="2" stroke-dasharray="5 4"/>
+
+  <!-- damage side channel -->
+  <rect x="380" y="1000" width="420" height="120" rx="12" fill="#2a2118" stroke="#e0af68" stroke-dasharray="6 4"/>
+  <text x="590" y="1032" text-anchor="middle" fill="#e0af68" font-size="16" font-weight="700">损伤注入 damage()（演示/测试）</text>
+  <g font-size="14" fill="#d6d9e8">
+    <text x="590" y="1062" text-anchor="middle">随机翻转 N 个数据模块（避开函数图形）</text>
+    <text x="590" y="1088" text-anchor="middle">≤t 字节错 → 解码端 RS 自愈</text>
+  </g>
+  <line x1="590" y1="1120" x2="590" y2="1160" stroke="#e0af68" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 590 1160 Q 590 1240 840 200" fill="none" stroke="#e0af68" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+
+  <!-- legend / spec strip -->
+  <rect x="60" y="1290" width="1060" height="200" rx="12" fill="#1d2130" stroke="#33364a"/>
+  <text x="90" y="1326" fill="#e6e6f0" font-size="17" font-weight="700">规格要点</text>
+  <g font-size="14" fill="#9aa0bd">
+    <text x="90" y="1358">• 版本 1–10（21×21 … 57×57 模块），纠错级 L / M / Q / H，块结构对照 Thonky / ISO 18004</text>
+    <text x="90" y="1388">• RS 纠错容量 t = ec/2 字节/块：v1-L t=2 … v4-H ec16 t=8；恰好 t 字节全纠回，2t+1 字节必拒绝</text>
+    <text x="90" y="1418">• 格式信息 BCH(15,5) 掩码 0x5412；版本信息 BCH(18,6) 生成元 0x1F25（v7+）</text>
+    <text x="90" y="1448">• 掩码选择：8 种掩码函数 × N1–N4 惩罚，总分最低者胜出（工作台可视化 N1–N4 明细）</text>
+  </g>
+</svg>
