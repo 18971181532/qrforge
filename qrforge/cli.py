@@ -15,6 +15,14 @@ import sys
 from . import qrforge as core
 from . import tables, encode as enc, png as pngmod
 
+# Windows consoles default to a legacy code page; QRForge text is UTF-8
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf8"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError):
+        pass
+
 
 def _cmd_encode(args):
     result = core.encode(args.text, level=args.level)
